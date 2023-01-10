@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Max-Planck-Gesellschaft zur Förderung der Wissenschaften e.V. (MPG) is
+# Max-Planck-Gesellschaft zur Forderung der Wissenschaften e.V. (MPG) is
 # holder of all proprietary rights on this computer program.
 # You can only use this computer program if you have closed
 # a license agreement with MPG or you get the right to use the computer
@@ -8,7 +8,7 @@
 # Any use of the computer program without a valid license is prohibited and
 # liable to prosecution.
 #
-# Copyright©2019 Max-Planck-Gesellschaft zur Förderung
+# Copyright�2019 Max-Planck-Gesellschaft zur Forderung
 # der Wissenschaften e.V. (MPG). acting on behalf of its Max Planck Institute
 # for Intelligent Systems and the Max Planck Institute for Biological
 # Cybernetics. All rights reserved.
@@ -28,8 +28,10 @@ import pickle
 from tqdm import tqdm
 import numpy as np
 
+inModel = "third_parties/smpl/models/*.pkl"
+outModel = "third_parties/smpl/models"
 
-def clean_fn(fn, output_folder='output'):
+def clean_fn(fn, output_folder=outModel):
     with open(fn, 'rb') as body_file:
         body_data = pickle.load(body_file)
 
@@ -46,23 +48,5 @@ def clean_fn(fn, output_folder='output'):
     with open(out_path, 'wb') as out_file:
         pickle.dump(output_dict, out_file)
 
-
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--input-models', dest='input_models', nargs='+',
-                        required=True, type=str,
-                        help='The path to the model that will be processed')
-    parser.add_argument('--output-folder', dest='output_folder',
-                        required=True, type=str,
-                        help='The path to the output folder')
-
-    args = parser.parse_args()
-
-    input_models = args.input_models
-    output_folder = args.output_folder
-    if not osp.exists(output_folder):
-        print('Creating directory: {}'.format(output_folder))
-        os.makedirs(output_folder)
-
-    for input_model in input_models:
+    for input_model in inModel:
         clean_fn(input_model, output_folder=output_folder)
